@@ -229,7 +229,10 @@
     # Build darwin flake using:
     # $ darwin-rebuild build --flake .#simple
     darwinConfigurations."Berrys-Mac-mini" = nix-darwin.lib.darwinSystem {
-      modules = [configuration];
+      modules = [
+        ./defaults.nix
+        configuration
+      ];
     };
 
     # Expose the package set, including overlays, for convenience.
