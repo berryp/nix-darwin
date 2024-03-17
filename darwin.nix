@@ -1,7 +1,43 @@
-# https://macos-defaults.com/
-# https://defaults-write.com
-# https://github.com/LnL7/nix-darwin/blob/master/modules/system/defaults
-{
+{pkgs, ...}: {
+  environment.systemPackages = with pkgs; [vim alejandra terminal-notifier];
+
+  # Auto upgrade nix package and the daemon service.
+  services.nix-daemon.enable = true;
+  # nix.package = pkgs.nix;
+
+  # Necessary for using flakes on this system.
+  nix.settings.experimental-features = ["nix-command" "flakes" "repl-flake"];
+  nix.settings.trusted-users = ["root" "berryp" "@admin"];
+  nix.settings.extra-nix-path = "nixpkgs=flake:nixpkgs";
+
+  nix.extraOptions = ''
+    extra-platforms = x86_64-darwin aarch64-darwin
+  '';
+
+  # Create /etc/zshrc that loads the nix-darwin environment.
+  programs.zsh.enable = true;
+
+  users.users.berryp = {
+    name = "berryp";
+    home = "/Users/berryp";
+  };
+
+  nixpkgs.hostPlatform = "aarch64-darwin";
+
+  system.stateVersion = 4;
+  security.pam.enableSudoTouchIdAuth = true;
+
+  fonts.fontDir.enable = true;
+  fonts.fonts = with pkgs; [
+    fira
+    (nerdfonts.override {fonts = ["FiraCode"];})
+  ];
+
+  #### DEFAULTS ####
+
+  # https://macos-defaults.com/
+  # https://defaults-write.com
+  # https://github.com/LnL7/nix-darwin/blob/master/modules/system/defaults
   system.defaults.NSGlobalDomain = {
     "com.apple.trackpad.scaling" = 3.0;
     AppleInterfaceStyle = "Dark";
