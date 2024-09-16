@@ -3,50 +3,49 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    nix-darwin.url = "github:LnL7/nix-darwin";
-    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+    darwin.url = "github:LnL7/nix-darwin";
+    darwin.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager.url = "github:nix-community/home-manager";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    _1password-shell-plugins = {
+          url = "github:1Password/shell-plugins";
+          inputs.nixpkgs.follows = "nixpkgs";
+        };
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs }:
-  let
-    configuration = { pkgs, ... }: {
-      # List packages installed in system profile. To search by name, run:
-      # $ nix-env -qaP | grep wget
-      environment.systemPackages =
-        [
-          pkgs.vim
-        ];
-
-      # Auto upgrade nix package and the daemon service.
-      services.nix-daemon.enable = true;
-      # nix.package = pkgs.nix;
-
-      # Necessary for using flakes on this system.
-      nix.settings.experimental-features = "nix-command flakes";
-
-      # Create /etc/zshrc that loads the nix-darwin environment.
-      programs.zsh.enable = true;  # default shell on catalina
-      programs.fish.enable = true;
-
-      # Set Git commit hash for darwin-version.
-      system.configurationRevision = self.rev or self.dirtyRev or null;
-
-      # Used for backwards compatibility, please read the changelog before changing.
-      # $ darwin-rebuild changelog
-      system.stateVersion = 4;
-
-      # The platform the configuration will be used on.
-      nixpkgs.hostPlatform = "aarch64-darwin";
-    };
-  in
-  {
+  outputs = inputs @ {
+    nixpkgs,
+    home-manager,
+    darwin,
+    self,
+    ...
+  }: {
     # Build darwin flake using:
     # $ darwin-rebuild build --flake .#Berrys-MacBook-Pro
-    darwinConfigurations."Berrys-MacBook-Pro" = nix-darwin.lib.darwinSystem {
-      modules = [ configuration ];
-    };
+    darwinConfigurations = {
+      "Berrys-MacBook-Pro" = darwin.lib.darwinSystem {
+        system = "aarch64-darwin";
+        modules = [
+          ./configuration.nix
+          home-manager.darwinModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.berryp = {
+                imports = [
+                    inputs._1password-shell-plugins.hmModules.default
+                    ./home.nix
+                ];
+            };
+            home-manager.extraSpecialArgs = {inherit inputs;};
 
-    # Expose the package set, including overlays, for convenience.
-    darwinPackages = self.darwinConfigurations."Berrys-MacBook-Pro".pkgs;
+            # Optionally, use home-manager.extraSpecialArgs to pass
+            # arguments to home.nix
+          }
+        ];
+        specialArgs = {inherit inputs;};
+      };
+    };
   };
 }
