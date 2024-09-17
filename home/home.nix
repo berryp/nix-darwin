@@ -52,6 +52,20 @@ home.preferXdgDirectories = true;
   programs.neovim.enable = true;
   xdg.configFile."nvim".source = mkOutOfStoreSymlink "${nixConfigDirectory}/configs/nvim";
 
+  # fzf
+  programs.fzf.enable = true;
+  programs.fzf.enableBashIntegration = true;
+  programs.fzf.enableFishIntegration = true;
+  programs.fzf.enableZshIntegration = true;
+  programs.fzf.tmux.enableShellIntegration = true;
+
+  # jq
+  programs.jq.enable = true;
+
+  # Starship
+  programs.starship.enable = true;
+  programs.starship.enableFishIntegration = true;
+
   home.packages = attrValues {
     # Basics
     inherit

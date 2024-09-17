@@ -13,8 +13,9 @@ in
   programs.fish.enable = true;
 
   # Add Fish plugins
-  home.packages = [
-    pkgs.fishPlugins.done
+  programs.fish.plugins = [
+  { name = "done"; src = pkgs.fishPlugins.done.src; }
+    { name = "pure"; src = pkgs.fishPlugins.pure.src; }
   ];
 
   # Fish functions ----------------------------------------------------------------------------- {{{
