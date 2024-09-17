@@ -9,9 +9,9 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     _1password-shell-plugins = {
-          url = "github:1Password/shell-plugins";
-          inputs.nixpkgs.follows = "nixpkgs";
-        };
+      url = "github:1Password/shell-plugins";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs @ {
@@ -33,10 +33,10 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.berryp = {
-                imports = [
-                    inputs._1password-shell-plugins.hmModules.default
-                    ./home/home.nix
-                ];
+              imports = [
+                inputs._1password-shell-plugins.hmModules.default
+                ./home/home.nix
+              ];
             };
             home-manager.extraSpecialArgs = {inherit inputs;};
 

@@ -6,33 +6,30 @@
 }: let
   inherit (lib) attrValues;
   inherit (config.lib.file) mkOutOfStoreSymlink;
-  inherit (config.xdg)
-      cacheHome
-      configHome
-      dataHome
-      stateHome
-      ;
+  inherit
+    (config.xdg)
+    stateHome
+    ;
   nixConfigDirectory = "/Users/berryp/.config/nix-darwin";
 in {
-
-imports = [
+  imports = [
     ./fish.nix
-];
+  ];
 
-# Enable XDG Base Directory support
-xdg.enable = true;
-home.preferXdgDirectories = true;
+  # Enable XDG Base Directory support
+  xdg.enable = true;
+  home.preferXdgDirectories = true;
 
-# 1Password CLI plugin integration
+  # 1Password CLI plugin integration
   # https://developer.1password.com/docs/cli/shell-plugins/nix
   programs._1password-shell-plugins.enable = true;
   programs._1password-shell-plugins.plugins = attrValues {
     inherit (pkgs) gh cachix;
   };
   # Setup tools to work with 1Password
-   home.sessionVariables = {
-     GITHUB_TOKEN = "op://Personal/GitHub/GitHub CLI";
-   };
+  home.sessionVariables = {
+    GITHUB_TOKEN = "op://Personal/GitHub/GitHub CLI";
+  };
 
   programs.direnv.enable = true;
   programs.direnv.nix-direnv.enable = true;
@@ -43,7 +40,7 @@ home.preferXdgDirectories = true;
       extraOptions = {
         "IdentityAgent" = "\"~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock\"";
       };
-     };
+    };
   };
 
   programs.zoxide.enable = true;
@@ -66,49 +63,41 @@ home.preferXdgDirectories = true;
   programs.starship.enable = true;
   programs.starship.enableFishIntegration = true;
 
-  home.packages = attrValues {
-    # Basics
-    inherit
-      (pkgs)
-      bottom # fancy version of `top` with ASCII graphs
-      coreutils
-      curl
-      du-dust # fancy version of `du`
-      eza # fancy version of `ls`
-      fd # fancy version of `find`
-      ripgrep # better version of `grep`
-      tealdeer # rust implementation of `tldr`
-      thefuck
-      wget
-      xz
-      ext4fuse
-      ;
+  home.packages = with pkgs; [
+    bottom
+    coreutils
+    curl
+    du-dust
+    eza
+    fd
+    ripgrep
+    tealdeer
+    thefuck
+    wget
+    xz
+    ext4fuse
 
     # Dev tools
-    inherit
-      (pkgs)
-      vim
-      jq
-      yq
-      ;
+
+    vim
+    jq
+    yq
 
     # Nix tools
-    inherit
-      (pkgs)
-      alejandra
-      cachix # adding/managing alternative binary caches hosted by Cachix
-      comma # run software from without installing it
-      devenv
-      nil
-      ;
-  };
+
+    alejandra
+    cachix # adding/managing alternative binary caches hosted by Cachix
+    comma # run software from without installing it
+    devenv
+    nil
+  ];
 
   home.sessionVariables = {
     # EDITOR = "nvim";
   };
 
   # Less
-home.sessionVariables.LESSHISTFILE = "${stateHome}/lesshst";
+  home.sessionVariables.LESSHISTFILE = "${stateHome}/lesshst";
 
   home.stateVersion = "24.05";
   programs.home-manager.enable = true;
