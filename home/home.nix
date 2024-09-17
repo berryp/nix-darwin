@@ -14,6 +14,11 @@
       ;
   nixConfigDirectory = "/Users/berryp/.config/nix-darwin";
 in {
+
+imports = [
+    ./fish.nix
+];
+
 # Enable XDG Base Directory support
 xdg.enable = true;
 home.preferXdgDirectories = true;
@@ -62,6 +67,7 @@ home.preferXdgDirectories = true;
       thefuck
       wget
       xz
+      ext4fuse
       ;
 
     # Dev tools

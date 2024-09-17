@@ -35,7 +35,7 @@
             home-manager.users.berryp = {
                 imports = [
                     inputs._1password-shell-plugins.hmModules.default
-                    ./home.nix
+                    ./home/home.nix
                 ];
             };
             home-manager.extraSpecialArgs = {inherit inputs;};
