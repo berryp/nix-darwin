@@ -1,12 +1,11 @@
 {
   pkgs,
-  lib,
   config,
-  inputs,
   ...
 }: {
   environment.systemPackages = with pkgs; [
     terminal-notifier
+    pkg-config
   ];
 
   programs.nix-index.enable = true;
@@ -22,20 +21,19 @@
   #   "8.8.8.8" # Google
   # ];
 
-  # Keyboard
-  system.keyboard.enableKeyMapping = true;
-  system.keyboard.remapCapsLockToEscape = true;
-
   # Add ability to used TouchID for sudo authentication
   security.pam.enableSudoTouchIdAuth = true;
 
   # Auto upgrade nix package and the daemon service.
   services.nix-daemon.enable = true;
+
+  # services.aerospace.enable = true;
   # nix.package = pkgs.nix;
 
   # Necessary for using flakes on this system.
   nix.settings = {
     experimental-features = "nix-command flakes";
+    extra-nix-path = "nixpkgs=flake:nixpkgs";
 
     trusted-users = ["@admin" "berryp"];
 
@@ -74,9 +72,6 @@
 
   # Install and setup ZSH to work with nix(-darwin) as well
   programs.zsh.enable = true;
-
-  # Set Git commit hash for darwin-version.
-  system.configurationRevision = inputs.self.rev or inputs.self.dirtyRev or null;
 
   # Used for backwards compatibility, please read the changelog before changing.
   # $ darwin-rebuild changelog
