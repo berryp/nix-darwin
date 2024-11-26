@@ -86,6 +86,13 @@ in {
     enableFishIntegration = true;
   };
 
+  programs.wezterm = {
+    enable = true;
+    enableBashIntegration = true;
+    enableZshIntegration = true;
+    extraConfig = builtins.readFile ./wezterm.lua;
+  };
+
   programs.zoxide.enable = true;
 
   home.packages = attrValues {

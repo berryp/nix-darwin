@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }: let
   signingKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC2o35XUfVCZPxvsxowdfoY5+g4/P8Kz/ufkb81wMmuT";
@@ -33,7 +34,12 @@ in {
       ghq.root = "~/code";
     };
 
-    ignores = [] ++ gitignore ["Global/macOS" "Global/Archives" "Python" "Go"];
+    ignores =
+      [
+        ".env.local"
+        ".direnv/"
+      ]
+      ++ gitignore ["Global/macOS" "Global/Archives" "Python" "Go"];
 
     # Enhanced diffs
     #delta.enable = true;
@@ -48,9 +54,9 @@ in {
     };
   };
 
-  programs.gh = {
-    enable = true;
-    settings.version = 1;
-    settings.git_protocol = "ssh";
-  };
+  # programs.gh = {
+  #   enable = true;
+  #   settings.version = 1;
+  #   settings.git_protocol = "ssh";
+  # };
 }
