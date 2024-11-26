@@ -1,5 +1,19 @@
-{config, ...}: let
+{
+  config,
+  lib,
+  ...
+}: let
   signingKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC2o35XUfVCZPxvsxowdfoY5+g4/P8Kz/ufkb81wMmuT";
+
+  gitignore = t:
+    lib.strings.splitString "\n" (lib.concatStrings (map (x: (builtins.readFile (
+        builtins.fetchGit {
+          url = "git@github.com:github/gitignore";
+          rev = "95c8bf079cf5600d967696c7f253e352ae77d83d";
+        }
+        + "/${x}.gitignore"
+      )))
+      t));
 in {
   home.file.".ssh/allowed_signers".text = "* ${signingKey}";
 
@@ -19,10 +33,7 @@ in {
       ghq.root = "~/code";
     };
 
-    ignores = [
-      "*~"
-      ".DS_Store"
-    ];
+    ignores = [] ++ gitignore ["Global/macOS" "Global/Archives" "Python" "Go"];
 
     # Enhanced diffs
     #delta.enable = true;
