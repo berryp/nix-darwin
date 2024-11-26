@@ -1,11 +1,13 @@
 return {
-  -- add gruvbox
-  { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
-
+  {
+    "folke/tokyonight.nvim",
+    lazy = true,
+    opts = { style = "storm" },
+  },
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "catppuccin",
+      colorscheme = "tokyonight",
     },
   },
 }

@@ -72,5 +72,6 @@ in {
   homebrew.brews = [
     "swift-format"
     "swiftlint"
+    "jackett"
   ];
 }

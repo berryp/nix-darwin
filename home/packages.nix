@@ -15,44 +15,76 @@ in {
     LESSHISTFILE = "${stateHome}/lesshst";
   };
 
-  programs.bat.enable = true;
-  programs.bat.config = {
-    style = "plain";
+  programs.bat = {
+    enable = true;
+    config = {
+      style = "plain";
+    };
   };
 
   programs.btop.enable = true;
 
-  programs.direnv.enable = true;
-  programs.direnv.nix-direnv.enable = true;
+  programs.htop = {
+    enable = true;
+    settings.show_program_path = true;
+  };
+
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+    # Enable custom layouts dir
+    stdlib = ''
+      : ''${XDG_CACHE_HOME:=$HOME/.cache}
+      declare -A direnv_layout_dirs
+      direnv_layout_dir() {
+          echo "''${direnv_layout_dirs[$PWD]:=$(
+              echo -n "$XDG_CACHE_HOME"/direnv/layouts/
+              echo -n "$PWD" | shasum | cut -d ' ' -f 1
+          )}"
+      }
+    '';
+  };
 
   # fzf
-  programs.fzf.enable = true;
-  programs.fzf.enableBashIntegration = true;
-  programs.fzf.enableFishIntegration = true;
-  programs.fzf.enableZshIntegration = true;
-  programs.fzf.tmux.enableShellIntegration = true;
+  programs.fzf = {
+    enable = true;
+    enableBashIntegration = true;
+    enableFishIntegration = true;
+    enableZshIntegration = true;
+    tmux.enableShellIntegration = true;
+  };
+
+  programs.eza = {
+    enable = true;
+    enableBashIntegration = true;
+    enableFishIntegration = true;
+  };
 
   programs.gh.enable = true;
 
   # neovim
   programs.neovim.enable = true;
 
-  programs.ssh.enable = true;
-  programs.ssh.matchBlocks = {
-    "*" = {
-      extraOptions = {
-        "UseKeychain" = "yes";
-        "AddKeysToAgent" = "yes";
+  programs.ssh = {
+    enable = true;
+    matchBlocks = {
+      "*" = {
+        extraOptions = {
+          "UseKeychain" = "yes";
+          "AddKeysToAgent" = "yes";
+        };
+        identityFile = [
+          "~/.ssh/berryp_ed25519"
+        ];
       };
-      identityFile = [
-        "~/.ssh/berryp_ed25519"
-      ];
     };
   };
 
   # Starship
-  programs.starship.enable = true;
-  programs.starship.enableFishIntegration = true;
+  programs.starship = {
+    enable = true;
+    enableFishIntegration = true;
+  };
 
   programs.zoxide.enable = true;
 
@@ -64,7 +96,6 @@ in {
       coreutils
       curl
       du-dust
-      eza
       fd
       ffmpeg
       ripgrep
@@ -79,19 +110,31 @@ in {
     # Languages
     inherit
       (pkgs)
+      cargo
       go
+      go-tools
+      gopls
+      gotools
+      python312
+      rustc
       ;
-    # (python312.withPackages
-    #   (ps: with ps; [pip]))
+
+    inherit
+      (pkgs.python312Packages)
+      pip
+      requests
+      ;
 
     # Dev tools
     inherit
       (pkgs)
-      vim
-      jq
-      yq
       colima
+      jq
       libgcrypt
+      sqlite-interactive
+      vim
+      watch
+      yq
       ;
     # Nix tools
     inherit

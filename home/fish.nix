@@ -22,6 +22,14 @@ in {
   ];
 
   programs.fish.functions = {
+    dvd.body = ''
+      echo "use flake \"github:the-nix-way/dev-templates?dir=$argv[1]\"" >> .envrc
+      direnv allow
+    '';
+    dvt.body = ''
+      nix flake init -t "github:the-nix-way/dev-templates#$argv[1]"
+      direnv allow
+    '';
   };
 
   # Aliases
@@ -30,11 +38,7 @@ in {
     drb = "darwin-rebuild build --flake ${nixConfigDirectory}";
     drs = "darwin-rebuild switch --flake ${nixConfigDirectory}";
     flakeup = "nix flake update ${nixConfigDirectory}";
-    nb = "nix build";
-    nd = "nix develop";
-    nf = "nix flake";
-    nr = "nix run";
-    ns = "nix search";
+    ndc = "cd ${nixConfigDirectory} && nvim";
 
     vi = "${neovim}/bin/nvim";
     vim = "${neovim}/bin/nvim";

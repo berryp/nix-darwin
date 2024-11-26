@@ -28,7 +28,6 @@
       (self.lib)
       attrValues
       makeOverridable
-      optionalAttrs
       singleton
       ;
 
@@ -82,6 +81,8 @@
       berry-configs = import ./home/config-files.nix;
       berry-packages = import ./home/packages.nix;
       berry-fish = import ./home/fish.nix;
+      berry-git = import ./home/git.nix;
+      berry-starship = import ./home/starship.nix;
       # berry-git = import ./home/git.nix;
       home-user-info = {lib, ...}: {
         options.home.user-info =
