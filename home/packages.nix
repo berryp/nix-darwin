@@ -15,6 +15,13 @@ in {
     LESSHISTFILE = "${stateHome}/lesshst";
   };
 
+  programs.less.enable = true;
+  programs.lesspipe.enable = true;
+
+  programs.lazygit.enable = true;
+  programs.keychain.enable = true;
+  programs.dircolors.enable = true;
+
   programs.bat = {
     enable = true;
     config = {
@@ -59,6 +66,10 @@ in {
     enableBashIntegration = true;
     enableFishIntegration = true;
   };
+
+  programs.go.enable = true;
+  programs.poetry.enable = true;
+  programs.k9s.enable = true;
 
   programs.gh.enable = true;
 
@@ -118,10 +129,6 @@ in {
     inherit
       (pkgs)
       cargo
-      go
-      go-tools
-      gopls
-      gotools
       python312
       rustc
       ;
@@ -136,6 +143,7 @@ in {
     inherit
       (pkgs)
       colima
+      pgcli
       jq
       libgcrypt
       sqlite-interactive

@@ -67,11 +67,13 @@ in {
 
   # Configuration related to casks
 
-  # For cli packages that aren't currently available for macOS in `nixpkgs`.Packages should be
-  # installed in `../home/default.nix` whenever possible.
+  # ESP-IDF doesn't play well with nix. cmake, ninja, and dfu-util must be brew installed.
   homebrew.brews = [
     "swift-format"
     "swiftlint"
     "jackett"
+    "cmake"
+    "ninja"
+    "dfu-util"
   ];
 }

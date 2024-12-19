@@ -7,6 +7,10 @@
     darwin.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    nixos-generators = {
+      url = "github:nix-community/nixos-generators";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # Utility for watching macOS `defaults`.
     # prefmanager = {
@@ -22,6 +26,7 @@
     nixpkgs,
     home-manager,
     darwin,
+    nixos-generators,
     ...
   } @ inputs: let
     inherit
@@ -49,23 +54,23 @@
       email = "berryphillips@gmail.com";
       nixConfigDirectory = "/Users/berryp/.config/nix-darwin";
     };
+
+    systems = [
+      "aarch64-darwin"
+      "x86_64-darwin"
+    ];
+    forAllSystems = nixpkgs.lib.genAttrs systems;
   in {
+    packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
+    formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
+    overlays = import ./overlays {inherit inputs;};
+
     # Add some additional functions to `lib`.
     lib = inputs.nixpkgs.lib.extend (
       _: _: {
         mkDarwinSystem = import ./lib/mkDarwinSystem.nix inputs;
       }
     );
-    overlays = {
-      # apple-silicon = _: prev:
-      #   optionalAttrs (prev.stdenv.system == "aarch64-darwin") {
-      #     # Add access to x86 packages system is running Apple Silicon
-      #     pkgs-x86 = import inputs.nixpkgs-unstable {
-      #       system = "x86_64-darwin";
-      #       inherit (nixpkgsDefaults) config;
-      #     };
-      #   };
-    };
 
     darwinModules = {
       # My configurations
@@ -80,6 +85,7 @@
     homeManagerModules = {
       berry-configs = import ./home/config-files.nix;
       berry-packages = import ./home/packages.nix;
+      berry-services = import ./home/services.nix;
       berry-fish = import ./home/fish.nix;
       berry-git = import ./home/git.nix;
       berry-starship = import ./home/starship.nix;
@@ -112,6 +118,23 @@
           homeModules = attrValues self.homeManagerModules;
         }
       );
+    };
+
+    nixosConfigurations = {
+      vm = nixos-generators.nixosGenerate {
+        system = "aarch64-linux";
+        modules = [
+          {
+            # Pin nixpkgs to the flake input, so that the packages installed
+            # come from the flake inputs.nixpkgs.url.
+            nix.registry.nixpkgs.flake = nixpkgs;
+            # set disk size to to 20G
+            virtualisation.diskSize = 20 * 1024;
+          }
+          ./configuration.nix
+        ];
+        format = "raw";
+      };
     };
   };
 }
