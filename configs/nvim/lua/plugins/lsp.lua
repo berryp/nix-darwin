@@ -10,6 +10,7 @@ return {
             command = { "alejandra" },
           },
         },
+        sourcekit = {},
       },
     },
     -- config = function()

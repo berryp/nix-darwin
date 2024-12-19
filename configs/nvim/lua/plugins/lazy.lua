@@ -5,9 +5,6 @@ return {
   },
   {
     "nvim-treesitter/nvim-treesitter",
-    keys = {
-      { "zf", "<Cmd>Telescope spell_suggest<CR>", desc = "Telescope: Find spell word suggestion" },
-    },
     opts = function(_, opts)
       vim.list_extend(opts.ensure_installed, {
         "pkl",

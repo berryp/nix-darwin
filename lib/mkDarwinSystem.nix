@@ -19,6 +19,7 @@ inputs: {
 }:
 inputs.darwin.lib.darwinSystem {
   inherit system;
+  specialArgs = inputs;
   modules =
     modules
     ++ extraModules
@@ -34,7 +35,7 @@ inputs.darwin.lib.darwinSystem {
               nixConfigDirectory
               ;
           };
-
+          #
           # Support legacy workflows that use `<nixpkgs>` etc.
           nix.nixPath.nixpkgs = "${inputs.nixpkgs}";
 

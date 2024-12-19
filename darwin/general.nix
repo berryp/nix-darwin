@@ -90,30 +90,22 @@
 
   users.users.berryp.home = "/Users/berryp";
 
-  # services.sketchybar.enable = true;
-  # services.hercules-ci-agent.enable = true;
-
-  # $ launchctl load -w /Library/LaunchAgents/com.colima.default.plist
-  # $ launchctl print gui/$(id -u)/com.colima.default
-  # $ colima status
-
-  launchd.agents."colima.default" = {
-    command = "${pkgs.colima}/bin/colima start --foreground";
-    serviceConfig = {
-      Label = "com.colima.default";
-      RunAtLoad = true;
-      KeepAlive = true;
-
-      # not sure where to put these paths and not reference a hard-coded `$HOME`; `/var/log`?
-      StandardOutPath = "/Users/berryp/.colima/default/daemon/launchd.stdout.log";
-      StandardErrorPath = "/Users/berryp/.colima/default/daemon/launchd.stderr.log";
-
-      # not using launchd.agents.<name>.path because colima needs the system ones as well
-      EnvironmentVariables = {
-        PATH = "${pkgs.colima}/bin:${pkgs.docker}/bin:/usr/bin:/bin:/usr/sbin:/sbin";
-      };
-    };
+  # nix.linux-builder = {
+  #   enable = true;
+  #   systems = ["aarch64-linux" "x86_64-linux"];
+  # };
+  #
+  homebrew = {
+    enable = true;
+    casks = [];
+    brews = [
+      # "swift-format"
+      # "swiftlint"
+      # "jackett"
+      # "cmake"
+      # "ninja"
+      # "dfu-util"
+    ];
+    masApps = {};
   };
-
-  # services.aerospace.enable = true;
 }

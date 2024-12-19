@@ -1,22 +1,37 @@
 {
   stdenv,
   fetchzip,
-}:
-stdenv.mkDerivation rec {
-  name = "eim-${version}";
-  pname = "eim";
+  lib,
+  pkgs,
+}: let
   version = "0.1.5";
-
-  src = fetchzip {
-    url = "https://github.com/espressif/idf-im-cli/releases/download/v${version}/eim-v${version}-macos-aarch64.zip";
-    sha256 = "sha256-4CkijAlenhht8tyk3nBULaBPE0GBf6DVII699/RmmWI=";
+  srcs = {
+    aarch64-darwin = {
+      url = "https://github.com/espressif/idf-im-cli/releases/download/v${version}/eim-v${version}-macos-aarch64.zip";
+      sha256 = "sha256-b6+rTiOad8WX/FAJ2VOuZmdbwqXHlwabmt4t37hWWkA=";
+    };
   };
+in
+  stdenv.mkDerivation rec {
+    name = "eim-${version}";
+    pname = "eim";
+    inherit version;
 
-  phases = ["installPhase"];
+    src = fetchzip srcs.${pkgs.system};
 
-  installPhase = ''
-    mkdir -p $out/bin
-    cp $src $out/bin/eim
-    chmod +x $out/bin/eim
-  '';
-}
+    phases = ["installPhase"];
+
+    installPhase = ''
+      mkdir -p $out/bin
+      cp $src/${pname} $out/bin/${pname}
+      chmod +x $out/bin/${pname}
+    '';
+
+    meta = with lib; {
+      description = "ESP-IDF Installation Manager - CLI";
+      homepage = "https://docs.espressif.com/projects/idf-im-cli/en/latest/index.html";
+      license = licenses.asl20;
+      maintainers = with maintainers; [berryp];
+      platforms = platforms.all;
+    };
+  }

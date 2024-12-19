@@ -122,14 +122,22 @@ in {
       wget
       xz
       yt-dlp
+      termshark
+      tmux
       # prefmanager
+      ;
+
+    # Applications
+    inherit
+      (pkgs)
+      stats
+      audacity
       ;
 
     # Languages
     inherit
       (pkgs)
       cargo
-      python312
       rustc
       ;
 
@@ -143,6 +151,7 @@ in {
     inherit
       (pkgs)
       colima
+      docker
       pgcli
       jq
       libgcrypt
@@ -150,6 +159,7 @@ in {
       vim
       watch
       yq
+      eim
       ;
     # Nix tools
     inherit

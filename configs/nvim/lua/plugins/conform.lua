@@ -6,7 +6,7 @@ return {
         lua = { "stylua" },
         fish = { "fish_indent" },
         sh = { "shfmt" },
-        swift = { "swiftformat" },
+        swift = { "swiftformat", "swiftlint" },
         nix = { "alejandra" },
       },
     },

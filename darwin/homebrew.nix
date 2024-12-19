@@ -69,11 +69,11 @@ in {
 
   # ESP-IDF doesn't play well with nix. cmake, ninja, and dfu-util must be brew installed.
   homebrew.brews = [
-    "swift-format"
-    "swiftlint"
-    "jackett"
-    "cmake"
-    "ninja"
-    "dfu-util"
+    # "swift-format"
+    # "swiftlint"
+    # "jackett"
+    # "cmake"
+    # "ninja"
+    # "dfu-util"
   ];
 }

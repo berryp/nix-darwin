@@ -3,10 +3,16 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    darwin.url = "github:LnL7/nix-darwin";
-    darwin.inputs.nixpkgs.follows = "nixpkgs";
-    home-manager.url = "github:nix-community/home-manager";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    darwin = {
+      url = "github:LnL7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     nixos-generators = {
       url = "github:nix-community/nixos-generators";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -80,6 +86,7 @@
 
       # Modules I've created
       users-primaryUser = import ./modules/darwin/users.nix;
+      networking-hosts = import ./modules/darwin/hosts.nix;
     };
 
     homeManagerModules = {
@@ -113,6 +120,10 @@
             ++ singleton {
               nixpkgs = nixpkgsDefaults;
               nix.registry.my.flake = inputs.self;
+              networking.extraHosts = builtins.readFile (builtins.fetchurl {
+                url = "https://raw.githubusercontent.com/StevenBlack/hosts/6615b81c3f573a23d9883215633e78696e8dfa5a/alternates/fakenews-gambling-porn/hosts";
+                sha256 = "79669266eb1d66cf4183e71d3ca2521721d9032e15c4218fce5c494cadab49a6";
+              });
             };
           inherit homeStateVersion;
           homeModules = attrValues self.homeManagerModules;
