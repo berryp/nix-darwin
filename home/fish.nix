@@ -57,6 +57,7 @@ in {
   home.sessionPath = [
     "/run/current-system/sw/bin"
     "/opt/homebrew/opt/python@3.13/libexec/bin"
+    "/Users/berryp/.cargo/bin"
   ];
 
   programs.fish.shellAbbrs = {

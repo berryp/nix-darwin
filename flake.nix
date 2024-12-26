@@ -41,7 +41,6 @@
       makeOverridable
       singleton
       ;
-
     homeStateVersion = "24.11";
 
     nixpkgsDefaults = {
@@ -94,6 +93,7 @@
       berry-packages = import ./home/packages.nix;
       berry-services = import ./home/services.nix;
       berry-fish = import ./home/fish.nix;
+      berry-nushell = import ./home/nushell.nix;
       berry-git = import ./home/git.nix;
       berry-starship = import ./home/starship.nix;
       # berry-git = import ./home/git.nix;

@@ -124,6 +124,8 @@ in {
       yt-dlp
       termshark
       tmux
+      yazi # file manager
+      inetutils # networking tools
       # prefmanager
       ;
 
@@ -139,8 +141,10 @@ in {
       (pkgs)
       cargo
       rustc
+      nodejs_23
       ;
 
+    # Python
     inherit
       (pkgs.python312Packages)
       pip
@@ -161,6 +165,7 @@ in {
       yq
       eim
       ;
+
     # Nix tools
     inherit
       (pkgs)
