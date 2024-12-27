@@ -58,6 +58,7 @@ in {
     "/run/current-system/sw/bin"
     "/opt/homebrew/opt/python@3.13/libexec/bin"
     "/Users/berryp/.cargo/bin"
+    "/Applications/Ghostty.app/Contents/MacOS"
   ];
 
   programs.fish.shellAbbrs = {

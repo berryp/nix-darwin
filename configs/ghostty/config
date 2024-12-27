@@ -1,0 +1,6 @@
+macos-titlebar-style = tabs
+
+theme = tokyonight
+font-family = "Fira Mono"
+
+keybind = global:ctrl+\=toggle_quick_terminal
