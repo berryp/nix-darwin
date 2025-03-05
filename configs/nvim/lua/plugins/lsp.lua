@@ -4,6 +4,14 @@ return {
     opts = {
       inlay_hints = { enabled = false },
       servers = {
+        -- zls = {
+        --   filetypes = { "zig", "zon" },
+        --   settings = {
+        --     zls = {
+        --       enable_snippets = true,
+        --     },
+        --   },
+        -- },
         nil_ls = {
           mason = false,
           formatting = {
@@ -11,6 +19,15 @@ return {
           },
         },
         sourcekit = {},
+        lua_ls = {
+          settings = {
+            Lua = {
+              diagnostics = {
+                globals = { "vim", "lovr" },
+              },
+            },
+          },
+        },
       },
     },
     -- config = function()
@@ -19,15 +36,11 @@ return {
     -- end,
   },
   {
-    "williamboman/mason-lspconfig.nvim",
-    dependencies = {
-      "williamboman/mason.nvim",
-    },
-
-    opts = function(_, opts)
+    "williamboman/mason.nvim",
+    opts = {
       ensure_installed = {
         "typos",
-      }
-    end,
+      },
+    },
   },
 }

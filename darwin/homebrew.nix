@@ -69,6 +69,7 @@ in {
 
   # ESP-IDF doesn't play well with nix. cmake, ninja, and dfu-util must be brew installed.
   homebrew.brews = [
+    "dua-cli"
     # "swift-format"
     # "swiftlint"
     # "jackett"

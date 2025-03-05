@@ -18,6 +18,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nix-index-database.url = "github:nix-community/nix-index-database";
+    nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
+
     # Utility for watching macOS `defaults`.
     # prefmanager = {
     #   url = "github:malob/prefmanager";
@@ -96,6 +99,7 @@
       berry-nushell = import ./home/nushell.nix;
       berry-git = import ./home/git.nix;
       berry-starship = import ./home/starship.nix;
+      bp-podman = import ./home/podman.nix;
       # berry-git = import ./home/git.nix;
       home-user-info = {lib, ...}: {
         options.home.user-info =
@@ -122,11 +126,17 @@
               nix.registry.my.flake = inputs.self;
               networking.extraHosts = builtins.readFile (builtins.fetchurl {
                 url = "https://raw.githubusercontent.com/StevenBlack/hosts/6615b81c3f573a23d9883215633e78696e8dfa5a/alternates/fakenews-gambling-porn/hosts";
-                sha256 = "79669266eb1d66cf4183e71d3ca2521721d9032e15c4218fce5c494cadab49a6";
+                sha256 = "19fwi0qwglhagx0g1zzk04dwaz3l065n1p7jbbvkbv5zlxazaykf";
               });
             };
+          extraModules = [
+            inputs.nix-index-database.darwinModules.nix-index
+          ];
           inherit homeStateVersion;
           homeModules = attrValues self.homeManagerModules;
+          extraHomeModules = [
+            inputs.nix-index-database.hmModules.nix-index
+          ];
         }
       );
     };

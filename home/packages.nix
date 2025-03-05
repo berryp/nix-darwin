@@ -15,6 +15,8 @@ in {
     LESSHISTFILE = "${stateHome}/lesshst";
   };
 
+  programs.nix-index-database.comma.enable = true;
+
   programs.less.enable = true;
   programs.lesspipe.enable = true;
 
@@ -50,6 +52,19 @@ in {
           )}"
       }
     '';
+    direnvrcExtra = ''
+      layout_poetry() {
+        if [[ ! -f pyproject.toml ]]; then
+          log_error 'No pyproject.toml found.  Use `poetry new` or `poetry init` to create one first.'
+          exit 2
+        fi
+
+        local VENV=$(dirname $(poetry run which python))
+        export VIRTUAL_ENV=$(echo "$VENV" | rev | cut -d'/' -f2- | rev)
+        export POETRY_ACTIVE=1
+        PATH_add "$VENV"
+      }
+    '';
   };
 
   # fzf
@@ -80,13 +95,13 @@ in {
     enable = true;
     matchBlocks = {
       "*" = {
+        identityFile = [
+          "~/.ssh/berryp_ed25519"
+        ];
         extraOptions = {
           "UseKeychain" = "yes";
           "AddKeysToAgent" = "yes";
         };
-        identityFile = [
-          "~/.ssh/berryp_ed25519"
-        ];
       };
     };
   };
@@ -142,6 +157,8 @@ in {
       cargo
       rustc
       nodejs_23
+      zig
+      lua
       ;
 
     # Python
@@ -154,8 +171,6 @@ in {
     # Dev tools
     inherit
       (pkgs)
-      colima
-      docker
       pgcli
       jq
       libgcrypt
@@ -171,7 +186,6 @@ in {
       (pkgs)
       alejandra
       cachix # adding/managing alternative binary caches hosted by Cachix
-      comma # run software from without installing it
       devenv
       nil
       nix-search-cli
