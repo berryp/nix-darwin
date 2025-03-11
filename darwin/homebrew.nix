@@ -72,6 +72,8 @@ in {
   homebrew.brews = [
     "dua-cli" # Disk Usage Analyzer
     "kubectl" # Required for Colima
+    "docker"
+    "colima"
     # "swift-format"
     # "swiftlint"
     # "jackett"

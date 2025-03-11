@@ -149,7 +149,6 @@ in {
       watch
       yq
       asciinema
-      colima
       ;
 
     # Nix tools
