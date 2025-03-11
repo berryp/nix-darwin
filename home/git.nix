@@ -30,8 +30,10 @@ in {
       push.autoSetupRemote = true;
       commit.gpgsign = true;
       gpg.format = "ssh";
+      gpg.ssh.allowedSignersFile = "~/.ssh/allowed_signers";
       user.signingkey = signingKey;
       ghq.root = "~/code";
+      init.defaultBranch = "main";
     };
 
     ignores =

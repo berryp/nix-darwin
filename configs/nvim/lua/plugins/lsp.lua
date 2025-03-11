@@ -19,6 +19,10 @@ return {
           },
         },
         sourcekit = {},
+        buf_ls = {},
+        clangd = {
+          filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
+        },
         lua_ls = {
           settings = {
             Lua = {

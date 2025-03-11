@@ -65,7 +65,7 @@ in {
   # Dock and Mission Control
   system.defaults.dock = {
     autohide = true;
-    expose-group-by-app = false;
+    expose-group-apps = false;
     mru-spaces = false;
     tilesize = 36;
     show-recents = false;

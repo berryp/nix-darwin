@@ -1,22 +1,18 @@
 {lib, ...}: let
-  inherit (lib) mkOption types;
+  inherit (lib) types;
 in {
   options.users.primaryUser = {
-    username = mkOption {
-      type = with types; nullOr str;
-      default = null;
+    username = lib.mkOption {
+      type = types.str;
     };
-    fullName = mkOption {
-      type = with types; nullOr str;
-      default = null;
+    fullName = lib.mkOption {
+      type = types.str;
     };
-    email = mkOption {
-      type = with types; nullOr str;
-      default = null;
+    email = lib.mkOption {
+      type = types.str;
     };
-    nixConfigDirectory = mkOption {
-      type = with types; nullOr str;
-      default = null;
+    nixConfigDirectory = lib.mkOption {
+      type = types.str;
     };
   };
 }

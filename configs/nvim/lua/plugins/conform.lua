@@ -8,6 +8,7 @@ return {
         sh = { "shfmt" },
         swift = { "swiftformat", "swiftlint" },
         nix = { "alejandra" },
+        buf = { "buf-lint" },
       },
     },
   },

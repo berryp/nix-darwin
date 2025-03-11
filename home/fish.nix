@@ -52,6 +52,7 @@ in {
     la = "ll -a";
     ll = "ls -l --time-style long-iso --icons";
     ls = "${eza}/bin/eza";
+    lst = "ls -T";
   };
 
   home.sessionPath = [
@@ -99,5 +100,6 @@ in {
   programs.fish.interactiveShellInit = ''
     set -g fish_greeting ""
     ${pkgs.thefuck}/bin/thefuck --alias | source
+
   '';
 }

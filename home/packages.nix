@@ -15,8 +15,6 @@ in {
     LESSHISTFILE = "${stateHome}/lesshst";
   };
 
-  programs.nix-index-database.comma.enable = true;
-
   programs.less.enable = true;
   programs.lesspipe.enable = true;
 
@@ -28,6 +26,7 @@ in {
     enable = true;
     config = {
       style = "plain";
+      theme = "TwoDark";
     };
   };
 
@@ -36,35 +35,6 @@ in {
   programs.htop = {
     enable = true;
     settings.show_program_path = true;
-  };
-
-  programs.direnv = {
-    enable = true;
-    nix-direnv.enable = true;
-    # Enable custom layouts dir
-    stdlib = ''
-      : ''${XDG_CACHE_HOME:=$HOME/.cache}
-      declare -A direnv_layout_dirs
-      direnv_layout_dir() {
-          echo "''${direnv_layout_dirs[$PWD]:=$(
-              echo -n "$XDG_CACHE_HOME"/direnv/layouts/
-              echo -n "$PWD" | shasum | cut -d ' ' -f 1
-          )}"
-      }
-    '';
-    direnvrcExtra = ''
-      layout_poetry() {
-        if [[ ! -f pyproject.toml ]]; then
-          log_error 'No pyproject.toml found.  Use `poetry new` or `poetry init` to create one first.'
-          exit 2
-        fi
-
-        local VENV=$(dirname $(poetry run which python))
-        export VIRTUAL_ENV=$(echo "$VENV" | rev | cut -d'/' -f2- | rev)
-        export POETRY_ACTIVE=1
-        PATH_add "$VENV"
-      }
-    '';
   };
 
   # fzf
@@ -178,7 +148,8 @@ in {
       vim
       watch
       yq
-      eim
+      asciinema
+      colima
       ;
 
     # Nix tools

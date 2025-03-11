@@ -12,7 +12,8 @@
 
   fonts.packages = with pkgs; [
     fira
-    (nerdfonts.override {fonts = ["FiraCode"];})
+    nerd-fonts.fira-code
+    # (nerdfonts.override {fonts = ["FiraCode"];})
   ];
 
   #   # Networking
@@ -22,13 +23,7 @@
   # ];
 
   # Add ability to used TouchID for sudo authentication
-  security.pam.enableSudoTouchIdAuth = true;
-
-  # Auto upgrade nix package and the daemon service.
-  services.nix-daemon.enable = true;
-
-  # services.aerospace.enable = true;
-  # nix.package = pkgs.nix;
+  security.pam.services.sudo_local.touchIdAuth = true;
 
   # Necessary for using flakes on this system.
   nix.settings = {
@@ -69,8 +64,10 @@
     end
   '';
 
-  environment.variables.SHELL = "${pkgs.fish}/bin/fish";
-
+  environment.variables = {
+    SHELL = "${pkgs.fish}/bin/fish";
+    EDITOR = "${pkgs.neovim}/bin/nvim";
+  };
   # Install and setup ZSH to work with nix(-darwin) as well
   programs.zsh.enable = true;
 

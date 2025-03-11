@@ -6,9 +6,9 @@
   inherit (lib) mkIf;
   brewEnabled = config.homebrew.enable;
 in {
-  environment.shellInit = mkIf brewEnabled ''
-    eval "$(${config.homebrew.brewPrefix}/brew shellenv)"
-  '';
+  # environment.shellInit = mkIf brewEnabled ''
+  #   eval "$(${config.homebrew.brewPrefix}/brew shellenv)"
+  # '';
 
   # https://docs.brew.sh/Shell-Completion#configuring-completions-in-fish
   # For some reason if the Fish completions are added at the end of `fish_complete_path` they don't
@@ -24,15 +24,15 @@ in {
   '';
 
   homebrew.enable = true;
-  homebrew.onActivation.autoUpdate = true;
-  homebrew.onActivation.cleanup = "zap";
-  homebrew.global.brewfile = true;
-
-  homebrew.taps = [
-    "homebrew/services"
-    "nrlquaker/createzap"
-    "nikitabobko/tap"
-  ];
+  # homebrew.onActivation.autoUpdate = true;
+  # homebrew.onActivation.cleanup = "zap";
+  # homebrew.global.brewfile = true;
+  #
+  # homebrew.taps = [
+  #   "homebrew/services"
+  #   "nrlquaker/createzap"
+  #   "nikitabobko/tap"
+  # ];
 
   # Prefer installing application from the Mac App Store
   # homebrew.masApps = {
@@ -63,13 +63,15 @@ in {
   # If an app isn't available in the Mac App Store, or the version in the App Store has
   # limitations, e.g., Transmit, install the Homebrew Cask.
   homebrew.casks = [
+    "slack"
   ];
 
   # Configuration related to casks
 
   # ESP-IDF doesn't play well with nix. cmake, ninja, and dfu-util must be brew installed.
   homebrew.brews = [
-    "dua-cli"
+    "dua-cli" # Disk Usage Analyzer
+    "kubectl" # Required for Colima
     # "swift-format"
     # "swiftlint"
     # "jackett"

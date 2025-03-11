@@ -1,0 +1,21 @@
+{pkgs, ...}: {
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+    stdlib = ''
+      : ''${XDG_CACHE_HOME:=$HOME/.cache}
+
+      layout_poetry() {
+        if [[ ! -f pyproject.toml ]]; then
+          log_error 'No pyproject.toml found.  Use `poetry new` or `poetry init` to create one first.'
+          exit 2
+        fi
+
+        local VENV=$(dirname $(poetry run which python))
+        export VIRTUAL_ENV=$(echo "$VENV" | rev | cut -d'/' -f2- | rev)
+        export POETRY_ACTIVE=1
+        PATH_add "$VENV"
+      }
+    '';
+  };
+}

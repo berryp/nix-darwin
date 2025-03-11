@@ -1,6 +1,12 @@
+theme = tokyonight
+
+macos-non-native-fullscreen = true
 macos-titlebar-style = tabs
 
-theme = tokyonight
-font-family = "Fira Mono"
+window-inherit-working-directory = true
+
+shell-integration = fish
 
 keybind = global:ctrl+\=toggle_quick_terminal
+
+font-family = "Fira Mono"
