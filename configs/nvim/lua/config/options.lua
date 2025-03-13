@@ -4,3 +4,5 @@
 
 vim.opt.swapfile = false
 vim.g.snacks_animate = false
+
+vim.g.lazyvim_rust_diagnostics = "bacon-ls"

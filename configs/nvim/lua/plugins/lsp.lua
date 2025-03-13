@@ -44,6 +44,7 @@ return {
     opts = {
       ensure_installed = {
         "typos",
+        "bacon-ls",
       },
     },
   },

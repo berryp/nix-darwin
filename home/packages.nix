@@ -149,6 +149,7 @@ in {
       watch
       yq
       asciinema
+      asdf-vm
       ;
 
     # Nix tools

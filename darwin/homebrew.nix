@@ -73,6 +73,8 @@ in {
     "dua-cli" # Disk Usage Analyzer
     "kubectl" # Required for Colima
     "docker"
+    "docker-buildx"
+    "nixpacks"
     "colima"
     # "swift-format"
     # "swiftlint"
